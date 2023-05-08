@@ -55,7 +55,6 @@ export class UserComponent implements OnInit {
         .getUsers()
         .subscribe((response: any) => {
           this.allUsers = response;
-          this.columnsData = this.columnsSchema.map((col: any)=> col.key);
         });
         
         
@@ -64,7 +63,7 @@ export class UserComponent implements OnInit {
 export interface UserData {
   user_id: number;
   full_name: string;
-  user_name: URL;
+  user_name: string;
   user_email: string;
   address: string;
 }

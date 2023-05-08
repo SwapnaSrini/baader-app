@@ -9,7 +9,6 @@ import { AppService } from '../app.service';
 export class ProductComponent implements OnInit {
 
   allProducts: any = [];
-  columnsData: any = [];
   columnsSchema : any = [
     {
         key: "id",
@@ -54,7 +53,6 @@ export class ProductComponent implements OnInit {
         .getProducts()
         .subscribe((response: any) => {
           this.allProducts = parseResponse(response);
-          this.columnsData = this.columnsSchema.map((col: any)=> col.key);
         });
         
         

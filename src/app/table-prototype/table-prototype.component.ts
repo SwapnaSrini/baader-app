@@ -12,7 +12,6 @@ export class TablePrototypeComponent implements OnInit{
 faSort = faSort;
 isLoading = true;
 @Input() masterData: any[];
-@Input() columnList: any[];
 @Input() columnSchema: any[];
   displayedColumns:any[] | undefined;
   dataSource = new MatTableDataSource<Object>([]);
@@ -20,17 +19,13 @@ isLoading = true;
   @ViewChild(MatPaginator) paginator:any = MatPaginator;
 constructor() {
   this.masterData = [];
-  this.columnList = [];
   this.columnSchema = [];
 }
-ngAfterViewInit():void {
-  //console.log('inside afterview init  paginator is '+this.paginator + ' and sort is '+ this.sort);
-}
+
 ngOnInit(): void {
   // Assign the data to the data source for the table to render
   setTimeout(() =>{
-    this.displayedColumns = this.columnList;
-    console.log('inside settimeout master data is '+this.masterData);
+    this.displayedColumns = this.columnSchema.map((col: any)=> col.key);;
     this.dataSource = new MatTableDataSource<Object>(this.masterData);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
