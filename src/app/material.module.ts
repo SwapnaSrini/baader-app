@@ -34,7 +34,10 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
-
+import {DragDropModule} from '@angular/cdk/drag-drop';
+import {ScrollingModule} from '@angular/cdk/scrolling';
+import {CdkTableModule} from '@angular/cdk/table';
+import {CdkTreeModule} from '@angular/cdk/tree';
 @NgModule( {
     imports: [
         CommonModule,
@@ -70,7 +73,11 @@ import { MatPaginatorModule } from '@angular/material/paginator';
         MatSnackBarModule,
         MatTableModule,
         MatSortModule,
-        MatPaginatorModule
+        MatPaginatorModule,
+        DragDropModule,
+        ScrollingModule,
+        CdkTableModule,
+        CdkTreeModule
     ],
     exports: [
         MatButtonModule,
@@ -91,7 +98,11 @@ import { MatPaginatorModule } from '@angular/material/paginator';
         MatPaginatorModule,
         MatSortModule,
         MatCardModule,
-        MatProgressSpinnerModule
+        MatProgressSpinnerModule,
+        DragDropModule,
+        ScrollingModule,
+        CdkTableModule,
+        CdkTreeModule
         
     ],
     providers: [

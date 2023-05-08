@@ -6,7 +6,7 @@
 
 <div class="example-container mat-elevation-z8">
 
-  <mat-table [dataSource]="dataSource" matSort>
+  <mat-table #dTable [dataSource]="dataSource"  cdkDropList [cdkDropListData]="dataSource.data" (cdkDropListDropped)="onListDrop($event)" matSort>
     <ng-container [matColumnDef]="col.key" *ngFor="let col of columnSchema">
       <mat-header-cell *matHeaderCellDef [disabled]="(col.key === 'isEdit') || (col.key === 'imageURL') || (col.key === 'rating')" mat-sort-header>
         {{ col.label }}
@@ -17,6 +17,7 @@
             <button mat-button (click)="element.isEdit = !element.isEdit">
               Edit
             </button>
+            <div class="btn"><mat-icon cdkDragHandle>reorder</mat-icon></div>
           </div>
           <span *ngSwitchDefault>
             <div *ngIf="col.type == 'imageURL'"><img src={{element[col.key]}}/></div>
@@ -28,6 +29,7 @@
             <button mat-button (click)="element.isEdit = !element.isEdit">
               Done
             </button>
+            <div class="btn"><mat-icon cdkDragHandle>reorder</mat-icon></div>
           </div>
           <mat-form-field class="form-input" *ngSwitchCase="'number'">
             <input
@@ -50,7 +52,7 @@
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns;">
+    <mat-row *matRowDef="let row; columns: displayedColumns;" cdkDrag [cdkDragData]="row">
     </mat-row>
   <mat-footer-row *matFooterRowDef="['noData']"
       [ngClass]="{'hide':!(!isLoading && dataSource!=null && dataSource.filteredData.length==0)}"></mat-footer-row>
