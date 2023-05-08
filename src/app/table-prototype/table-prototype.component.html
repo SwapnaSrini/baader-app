@@ -6,7 +6,7 @@
 
 <div class="example-container mat-elevation-z8">
 
-  <mat-table #dTable [dataSource]="dataSource"  cdkDropList [cdkDropListData]="dataSource.data" (cdkDropListDropped)="onListDrop($event)" matSort>
+  <mat-table #dTable [dataSource]="dataSource"  cdkDropList [cdkDropListData]="dataSource.data" (cdkDropListDropped)="onRowDrop($event)" matSort>
     <ng-container [matColumnDef]="col.key" *ngFor="let col of columnSchema">
       <mat-header-cell *matHeaderCellDef [disabled]="(col.key === 'isEdit') || (col.key === 'imageURL') || (col.key === 'rating')" mat-sort-header>
         {{ col.label }}

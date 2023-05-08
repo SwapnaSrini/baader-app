@@ -2,7 +2,7 @@ import { Component, Input, OnInit, ViewChild} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTable, MatTableDataSource} from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
-import {CdkDragDrop, moveItemInArray, transferArrayItem,CdkDropList} from '@angular/cdk/drag-drop';
+import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-table-prototype',
@@ -30,18 +30,14 @@ ngOnInit(): void {
     this.dataSource = new MatTableDataSource<Object>(this.masterData);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-    console.log(' and paginator inside setTimeout is '+ this.dataSource.paginator);
-    console.log(' and sort inside setTimeout is '+ this.dataSource.sort);
     this.isLoading = false;
   },2000);
 }
 applyFilter(e: Event) {
   this.dataSource.filter = (e.target as HTMLInputElement).value.trim().toLowerCase();
 }
-onListDrop(event: CdkDragDrop<any>) {
+onRowDrop(event: CdkDragDrop<any>) {
   const previousIndex = this.dataSource.data.findIndex(row => row === event.item.data);
-  console.log('previous ind ' + previousIndex);
-
     moveItemInArray(this.dataSource.data, previousIndex, event.currentIndex);
     this.dataSource.data = [...this.dataSource.data];
   this.dTable.renderRows();
