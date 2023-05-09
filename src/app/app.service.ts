@@ -1,3 +1,4 @@
+//service for getUsers and getProducts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 @Injectable({

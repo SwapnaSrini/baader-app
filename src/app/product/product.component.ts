@@ -9,36 +9,49 @@ import { AppService } from '../app.service';
 export class ProductComponent implements OnInit {
 
   allProducts: any = [];
+   //columnSchema contains column configurations
   columnsSchema : any = [
     {
         key: "id",
         type: "number",
-        label: "Product ID"
+        label: "Product ID",
+        sortable: true,
+        editable: true
     },
     {
         key: "title",
         type: "text",
-        label: "Product Title"
+        label: "Product Title",
+        sortable: true,
+        editable: true
     },
     {
         key: "imageURL",
         type: "imageURL",
-        label: "Image"
+        label: "Image",
+        sortable: false,
+        editable: false
     },
     {
       key: "price",
       type: "number",
-      label: "Product Price in $"
+      label: "Product Price in $",
+      sortable: true,
+      editable: true
     },
     {
       key: "rating",
       type: "text",
-      label: "User Ratings"
+      label: "User Ratings",
+      sortable: false,
+      editable: false
     },
     {
       key: 'isEdit',
       type: 'isEdit',
       label: '',
+      sortable: false,
+      editable: false
     },
   
   ];
@@ -47,7 +60,7 @@ export class ProductComponent implements OnInit {
   ngOnInit(): void {
     this.fetchProducts();
   }
-
+//calls getProducts() from app Service to fetch products list from API
   fetchProducts(): void {
     this.service
         .getProducts()
@@ -58,6 +71,7 @@ export class ProductComponent implements OnInit {
         
   }
 }
+//productsList is parsed to form table data
 function parseResponse(response: any) : ProductData[] {
     let resultArray = [];
     for(let i=0;i<response.length;i++){
@@ -72,7 +86,7 @@ function parseResponse(response: any) : ProductData[] {
     }
     return resultArray;
   }
-
+//interface for productList
   export interface ProductData {
     id: number;
     title: string;

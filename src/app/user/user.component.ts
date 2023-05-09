@@ -11,36 +11,49 @@ import { AppService } from '../app.service';
 export class UserComponent implements OnInit {
   allUsers: any = [];
   columnsData: any = [];
+  //columnSchema contains column configurations
   columnsSchema : any = [
     {
         key: "user_id",
         type: "number",
-        label: "User ID"
+        label: "User ID",
+        sortable: true,
+        editable: true
     },
     {
         key: "full_name",
         type: "text",
-        label: "Full Name"
+        label: "Full Name",
+        sortable: true,
+        editable: true
     },
     {
         key: "user_name",
         type: "text",
-        label: "User Name"
+        label: "User Name",
+        sortable: true,
+        editable: true
     },
     {
       key: "user_email",
       type: "text",
-      label: "User Email"
+      label: "User Email",
+      sortable: true,
+      editable: true
     },
     {
       key: "address",
       type: "text",
-      label: "User Address"
+      label: "User Address",
+      sortable: true,
+      editable: true
     },
     {
       key: 'isEdit',
       type: 'isEdit',
       label: '',
+      sortable: false,
+      editable: false
     },
   
   ];
@@ -50,6 +63,7 @@ export class UserComponent implements OnInit {
     this.fetchUsers();
   
   }
+  //calls getUsers() from app Service to fetch users list from API
   fetchUsers(): void {
     this.service
         .getUsers()
@@ -60,6 +74,7 @@ export class UserComponent implements OnInit {
         
   }
 }
+//interface for usersList
 export interface UserData {
   user_id: number;
   full_name: string;

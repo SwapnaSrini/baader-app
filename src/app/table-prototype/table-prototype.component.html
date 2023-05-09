@@ -1,3 +1,4 @@
+
 <div class="example-header">
   <mat-form-field>
     <input matInput (keyup)="applyFilter($event)" placeholder="Filter">
@@ -6,11 +7,24 @@
 
 <div class="example-container mat-elevation-z8">
 
-  <mat-table #dTable [dataSource]="dataSource"  cdkDropList [cdkDropListData]="dataSource.data" (cdkDropListDropped)="onRowDrop($event)" matSort>
+  <mat-table #dTable [dataSource]="dataSource" cdkDropList [cdkDropListData]="dataSource.data"
+    (cdkDropListDropped)="onRowDrop($event)" matSort>
+
+    <!--definition for column headers
+     disable sorting for some columns based on col.sortable from columnSchema-->
+
     <ng-container [matColumnDef]="col.key" *ngFor="let col of columnSchema">
-      <mat-header-cell *matHeaderCellDef [disabled]="(col.key === 'isEdit') || (col.key === 'imageURL') || (col.key === 'rating')" mat-sort-header>
+      <mat-header-cell *matHeaderCellDef [disabled]="(col.sortable == false)" mat-sort-header>
         {{ col.label }}
       </mat-header-cell>
+
+      <!--definition for rows
+     row-wise edit/done buttons for toggling editmode added 
+     adding a drag handle from cdk and icon from mat-icons for row reordering
+     display an image when column type is imageURL
+     disable sorting of columns when 'sortable' is false, ex: ImageURLs shouldn't be sorted
+     disable editing some values when 'editable' is false  ex: User Ratings cannot be edited-->
+
       <mat-cell *matCellDef="let element">
         <div [ngSwitch]="col.type" *ngIf="!element.isEdit">
           <div class="btn-edit" *ngSwitchCase="'isEdit'">
@@ -20,7 +34,7 @@
             <div class="btn"><mat-icon cdkDragHandle>reorder</mat-icon></div>
           </div>
           <span *ngSwitchDefault>
-            <div *ngIf="col.type == 'imageURL'"><img src={{element[col.key]}}/></div>
+            <div *ngIf="col.type == 'imageURL'"><img src={{element[col.key]}} /></div>
             <div *ngIf="col.type !== 'imageURL'">{{ element[col.key] }}</div>
           </span>
         </div>
@@ -32,34 +46,43 @@
             <div class="btn"><mat-icon cdkDragHandle>reorder</mat-icon></div>
           </div>
           <mat-form-field class="form-input" *ngSwitchCase="'number'">
-            <input
-              type="number"
-              matInput
-              (ngModelChange)="element[col.key] = $event"
-              [ngModel]="element[col.key]"
-            />
+            <input [disabled]="(col.editable == false)" type="number" matInput
+              (ngModelChange)="element[col.key] = $event" [ngModel]="element[col.key]" />
           </mat-form-field>
           <mat-form-field class="form-input" *ngSwitchDefault>
-            <input [type]="col.type" matInput [(ngModel)]="element[col.key]" />
+            <input [disabled]="(col.editable == false)" [type]="col.type" matInput [(ngModel)]="element[col.key]" />
           </mat-form-field>
         </div>
-        </mat-cell>
+      </mat-cell>
+
+      <!--definition for footer cell in case of zero data records-->
+
     </ng-container>
     <ng-container matColumnDef="noData">
       <mat-footer-cell *matFooterCellDef colspan="6">
-          No data found.
-        </mat-footer-cell>
+        No data found.
+      </mat-footer-cell>
     </ng-container>
+
+    <!--displaying column headers and rows, adding cdkDrag and cdkDragData for enabling drag-drop functionality-->
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns;" cdkDrag [cdkDragData]="row">
     </mat-row>
-  <mat-footer-row *matFooterRowDef="['noData']"
+    <!--displaying footer cell for zero records i.e when dataSource is null and filtering doesn't return any data-->
+    <mat-footer-row *matFooterRowDef="['noData']"
       [ngClass]="{'hide':!(!isLoading && dataSource!=null && dataSource.filteredData.length==0)}"></mat-footer-row>
   </mat-table>
+
+  <!--define loading indicator based on isLoading boolean-->
+
   <mat-card *ngIf="isLoading" class="loading-indicator">
     <mat-progress-spinner color="primary" mode="indeterminate">
     </mat-progress-spinner>
   </mat-card>
+
+  <!--display pagination
+       disable pagination buttons when loading Indicator is ON-->
+
   <mat-paginator [disabled]="isLoading" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
 </div>
